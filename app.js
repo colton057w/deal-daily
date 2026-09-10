@@ -44,9 +44,9 @@ function renderAuth(){
   if(!configured){box.innerHTML=`<span class="tag warm">login not configured yet</span>`;return;}
   if(user){box.innerHTML=`${avatarUrl(user)?`<img class="avatar" src="${avatarUrl(user)}" alt="">`:''}<span class="who">${displayName(user).replace(/</g,'&lt;')}</span><button class="btn sm sec" id="logout">Log out</button>`;
     $('#logout').addEventListener('click',async()=>{await sb.auth.signOut();});}
-  else{box.innerHTML=`<button class="btn sm" id="loginG">Log in with Google</button><button class="btn sm sec" id="loginD">Log in with Discord</button>`;
-    $('#loginG').addEventListener('click',()=>sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}}));
-    $('#loginD').addEventListener('click',()=>sb.auth.signInWithOAuth({provider:'discord',options:{redirectTo:location.origin+location.pathname}}));}
+  else{const prov=CFG.providers||['google','discord'];const label={google:'Log in with Google',discord:'Log in with Discord'};
+    box.innerHTML=prov.map((p,i)=>`<button class="btn sm${i?' sec':''}" data-prov="${p}">${label[p]||p}</button>`).join('');
+    box.querySelectorAll('[data-prov]').forEach(b=>b.addEventListener('click',()=>sb.auth.signInWithOAuth({provider:b.dataset.prov,options:{redirectTo:location.origin+location.pathname}})));}
 }
 async function initAuth(){
   renderAuth();if(!sb)return;
@@ -71,7 +71,7 @@ async function renderLb(box,game,diff,cols,sortFields,pending){
   const meId=user?user.id:'local';
   let html=`<h3>Leaderboard · ${diff} · ${todayKey()} ${sb?'<span class="tag good">global</span>':'<span class="tag">this device</span>'}</h3>`;
   if(pending){
-    if(sb&&!user)html+=`<div class="note">Log in with Google or Discord (top right) to post your score to the global board.</div>`;
+    if(sb&&!user)html+=`<div class="note">Log in (top right) to post your score to the global board.</div>`;
     else html+=`<div class="row" style="margin:8px 0"><button class="btn sm" id="${game}Save">Post my score</button><span class="note" id="${game}Posted"></span></div>`;
   }
   if(!entries.length)html+=`<div class="empty">No scores yet today on ${diff}. Be first.</div>`;
