@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deal Daily — three money puzzles a day</title>
+<meta name="description" content="Haggle, Bidder and Tab: three daily deal puzzles. Beat the seller, crack the auction, settle the tab. New puzzles every day.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#f6f4ef; --surface:#ffffff; --ink:#1e1f23; --muted:#6a6b72; --line:#dcd9d0;
+  --accent:#4338ca; --accent-ink:#3730a3; --accent-soft:#e6e4fb;
+  --good:#1f7a4d; --good-soft:#dcf2e6; --warm:#c2410c; --warm-soft:#fde8dc; --gold:#b7791f; --gold-soft:#fbefd4;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#16171b; --surface:#1f2026; --ink:#ecebe7; --muted:#a3a4ab; --line:#33353d;
+  --accent:#8b83f0; --accent-ink:#b4aff7; --accent-soft:#2a2848;
+  --good:#5fc48f; --good-soft:#1c3328; --warm:#f08a5c; --warm-soft:#3a2418; --gold:#e0b04d; --gold-soft:#3a2f14;
+}}
+:root[data-theme="dark"]{
+  --bg:#16171b; --surface:#1f2026; --ink:#ecebe7; --muted:#a3a4ab; --line:#33353d;
+  --accent:#8b83f0; --accent-ink:#b4aff7; --accent-soft:#2a2848;
+  --good:#5fc48f; --good-soft:#1c3328; --warm:#f08a5c; --warm-soft:#3a2418; --gold:#e0b04d; --gold-soft:#3a2f14;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:16px;line-height:1.5;padding-inline:16px;padding-block:20px 60px}
+.wrap{max-width:720px;margin:0 auto}
+h1,h2,h3{font-family:"Sora","Helvetica Neue",Arial,sans-serif;margin:0;line-height:1.1;text-wrap:balance}
+h1{font-size:26px;font-weight:700}
+h2{font-size:22px;font-weight:700}
+h3{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:16px}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.date{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:18px;overflow-x:auto}
+.tab{background:none;border:none;font:inherit;font-family:"Sora",sans-serif;font-weight:600;font-size:15px;padding:10px 14px;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--accent-ink);border-bottom-color:var(--accent)}
+.tab:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.intro{color:var(--muted);margin:6px 0 14px;max-width:60ch}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{font:inherit;font-weight:700;font-size:13px;border:none;background:var(--bg);color:var(--muted);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.timer{font-family:var(--mono);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums;padding:4px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
+.timer.run{border-color:var(--accent);color:var(--accent-ink)}
+.btn{font:inherit;font-weight:700;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;background:var(--accent);color:#fff}
+.btn.sec{background:var(--accent-soft);color:var(--accent-ink)}
+.btn.sm{padding:7px 12px;font-size:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,select{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);min-width:0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mono{font-family:var(--mono)}
+.tag{display:inline-block;font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+.tag.good{background:var(--good-soft);color:var(--good)}.tag.warm{background:var(--warm-soft);color:var(--warm)}.tag.gold{background:var(--gold-soft);color:var(--gold)}
+.share{margin-top:12px;padding:12px;border-radius:8px;background:var(--bg);border:1px dashed var(--line);white-space:pre-wrap;font-family:var(--mono);font-size:13px}
+.result{margin-top:14px;padding:12px 14px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
+.foot{margin-top:10px;font-size:13px;color:var(--muted)}
+.stats{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.stats b{color:var(--ink)}
+/* leaderboard */
+.lb{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.lb table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+.lb th,.lb td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+.lb th{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.lb td.num,.lb th.num{text-align:right;font-family:var(--mono)}
+.lb tr.me td{background:var(--accent-soft)}
+.lb .empty{color:var(--muted);font-size:14px}
+/* Haggle */
+.items{display:grid;gap:10px}
+.item{border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;grid-template-columns:1fr auto;gap:8px 12px;align-items:center;background:var(--bg)}
+.item.done{border-color:var(--good);background:var(--good-soft)}
+.item.paid{border-color:var(--warm);background:var(--warm-soft)}
+.item .name{font-weight:700}
+.item .ask{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.item .hist{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.item .hist:empty{display:none}
+.item .offer{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.item input{width:110px}
+.chip{font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);background:var(--surface)}
+.chip.c0{border-color:var(--warm);color:var(--warm)}.chip.c1{color:var(--muted)}.chip.c2{border-color:var(--gold);color:var(--gold)}.chip.c3{border-color:var(--good);color:var(--good)}.chip.c4{background:var(--good);color:#fff;border-color:var(--good)}
+/* Bidder */
+.clues{display:grid;gap:6px;margin:12px 0}
+.clue{padding:8px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-size:15px}
+.bgrid{display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:center}
+.bgrid .h{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.bgrid .nm{font-weight:700}
+.bgrid select{width:100%}
+select.ok{border-color:var(--good);background:var(--good-soft)}
+/* Tab */
+.receipt{border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:12px;font-family:var(--mono);font-size:14px}
+.receipt .ln{display:grid;grid-template-columns:1fr auto 150px;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line)}
+.receipt .ln:last-child{border-bottom:none}
+.receipt select{padding:6px 8px;font-size:13px;width:100%}
+.friends{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.friend{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface)}
+.friend b{display:block}
+.friend .st{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.friend.ok{border-color:var(--good);background:var(--good-soft)}
+.friend.over .st{color:var(--warm)}.friend.under .st{color:var(--gold)}
+@media (max-width:480px){ .bgrid{grid-template-columns:1fr} .bgrid .h{display:none} .bgrid .nm{margin-top:6px} .receipt .ln{grid-template-columns:1fr auto;} .receipt .ln select{grid-column:1/-1} }
+@media (prefers-reduced-motion:no-preference){ .item,.friend{transition:background .2s,border-color .2s} }
+
+.auth{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.auth .who{font-weight:700}
+.avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;vertical-align:middle}
+.avatar.sm{width:20px;height:20px;margin-right:6px}
+.note{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1>Deal Daily</h1><div class="date" id="dateLabel"></div></div>
+    <div class="auth" id="auth"></div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-tab="haggle" id="tab-haggle">Haggle</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="bidder" id="tab-bidder">Bidder</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="tab" id="tab-tab">Tab</button>
+  </div>
+
+  <!-- HAGGLE -->
+  <section class="panel" id="p-haggle" role="tabpanel" aria-labelledby="tab-haggle">
+    <h2>Haggle</h2>
+    <p class="intro">Every seller has a secret floor. Make an offer; their reaction tells you how close you are. Buy everything for as little as you can, in as few offers as you can. Miss all your offers on an item and you pay full asking.</p>
+    <div class="bar"><div class="seg" id="hDiff" role="group" aria-label="Difficulty"></div><div class="timer" id="hTimer">0:00</div></div>
+    <div class="stats"><span>Asking total <b id="hAsk"></b></span><span>Spent <b id="hSpent">$0</b></span><span>Offers <b id="hOffers">0</b></span></div>
+    <div class="items" id="hItems"></div>
+    <div id="hResult"></div>
+    <div class="lb" id="hLb"></div>
+  </section>
+
+  <!-- BIDDER -->
+  <section class="panel" id="p-bidder" role="tabpanel" aria-labelledby="tab-bidder" hidden>
+    <h2>Bidder</h2>
+    <p class="intro">A silent auction just closed. Each bidder won exactly one item at a different price. Work out who won what and for how much. Every clue set has exactly one answer.</p>
+    <div class="bar"><div class="seg" id="bDiff" role="group" aria-label="Difficulty"></div><div class="timer" id="bTimer">0:00</div></div>
+    <div class="clues" id="bClues"></div>
+    <div class="bgrid" id="bGrid"></div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="bCheck">Check</button><span id="bFeedback" class="mono" style="font-size:13px;color:var(--muted)"></span></div>
+    <div id="bResult"></div>
+    <div class="lb" id="bLb"></div>
+  </section>
+
+  <!-- TAB -->
+  <section class="panel" id="p-tab" role="tabpanel" aria-labelledby="tab-tab" hidden>
+    <h2>Tab</h2>
+    <p class="intro">The bar tab landed and nobody remembers who ordered what — but everyone knows what they owe. Assign every line on the receipt to a friend so each person's subtotal comes out exactly right.</p>
+    <div class="bar"><div class="seg" id="tDiff" role="group" aria-label="Difficulty"></div><div class="timer" id="tTimer">0:00</div></div>
+    <div class="friends" id="tFriends"></div>
+    <div class="receipt" id="tReceipt"></div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="tCheck">Check</button><span id="tFeedback" class="mono" style="font-size:13px;color:var(--muted)"></span></div>
+    <div id="tResult"></div>
+    <div class="lb" id="tLb"></div>
+  </section>
+
+  <p class="foot">Three new puzzles every day at midnight, same for everyone on the same difficulty. The timer starts on your first move. Log in to post to the global leaderboard.</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
