@@ -104,11 +104,17 @@ select.ok{border-color:var(--good);background:var(--good-soft)}
 @media (max-width:480px){ .bgrid{grid-template-columns:1fr} .bgrid .h{display:none} .bgrid .nm{margin-top:6px} .receipt .ln{grid-template-columns:1fr auto;} .receipt .ln select{grid-column:1/-1} }
 @media (prefers-reduced-motion:no-preference){ .item,.friend{transition:background .2s,border-color .2s} }
 
+.promo-grind{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:10px 14px;border-radius:10px;text-decoration:none;color:#fff;background:linear-gradient(135deg,var(--accent),#7c3aed);box-shadow:0 6px 16px -8px rgba(67,56,202,.6);font-size:14px}
+.promo-grind .pg-ico{font-size:22px}
+.promo-grind .pg-go{margin-left:auto;font-family:"Sora",sans-serif;font-weight:700;white-space:nowrap;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:6px}
+.promo-grind:hover .pg-go{background:rgba(255,255,255,.3)}
 .auth{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .auth .who{font-weight:700}
 .avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;vertical-align:middle}
 .avatar.sm{width:20px;height:20px;margin-right:6px}
 .note{font-size:13px;color:var(--muted)}
+.nw-board{margin-bottom:24px;border-top:3px solid var(--gold)}
+.nw-heading,.nw-personal,.nw-standing{display:flex;justify-content:space-between;align-items:center;gap:16px}.nw-heading h2{margin:6px 0}.nw-eyebrow{font:11px var(--mono);letter-spacing:.08em;color:var(--gold)}.nw-personal{background:var(--accent-soft);padding:16px;border-radius:10px;margin:16px 0}.nw-personal strong{display:block;font:700 clamp(22px,5vw,32px) "Sora",sans-serif;overflow-wrap:anywhere}.nw-personal .note{display:block}.nw-personal a{white-space:nowrap;text-decoration:none}.nw-form{display:flex;gap:12px;align-items:end;flex-wrap:wrap}.nw-form label{font-size:13px;flex:1;min-width:160px}.nw-form input{display:block;width:100%;margin-top:5px}.nw-form button{min-height:42px}.nw-scroll{overflow-x:auto}.nw-board th[scope="row"]{text-transform:none;letter-spacing:normal;font:700 14px "Atkinson Hyperlegible",sans-serif;text-align:left;overflow-wrap:anywhere;max-width:220px}.nw-rank{font-family:var(--mono);color:var(--gold)}.nw-board td.num{white-space:nowrap}.nw-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.nw-standing{margin-top:18px}.nw-board p:empty{display:none}@media(max-width:480px){.nw-personal{align-items:start;flex-direction:column}.nw-heading{align-items:start}.nw-form button{width:100%}.nw-board{padding:16px}}
 </style>
 </head>
 <body>
@@ -117,6 +123,18 @@ select.ok{border-color:var(--good);background:var(--good-soft)}
     <div><h1>Deal Daily</h1><div class="date" id="dateLabel"></div></div>
     <div class="auth" id="auth"></div>
   </div>
+  <a class="promo-grind" href="grind.html"><span class="pg-ico">⏰</span><span><b>New: Clock Out</b> — a pixel-art life sim. Work your first shift, pick a career, build a business, make a life.</span><span class="pg-go">Play →</span></a>
+
+  <section class="panel nw-board" id="clockout-board" aria-labelledby="nw-title">
+    <div class="nw-heading"><div><span class="nw-eyebrow">CLOCK OUT / THE NET WORTH BOARD</span><h2 id="nw-title">From first shift to first place.</h2></div><span class="tag">GLOBAL</span></div>
+    <p class="intro">See how your life stacks up. Cash, investments, businesses, properties and possessions all count.</p>
+    <div class="nw-personal"><div><span class="note">YOUR SAVED NET WORTH</span><strong id="nw-local-worth">Loading your save…</strong><span class="note" id="nw-local-detail"></span></div><a class="btn sm" href="grind.html">Keep building ↗</a></div>
+    <form id="nw-form" class="nw-form"><label for="nw-name">Public player name<input id="nw-name" name="name" minlength="2" maxlength="24" placeholder="Choose your name" required autocomplete="nickname" disabled></label><button class="btn sm" id="nw-submit" type="submit" disabled>Post / update my net worth</button></form>
+    <p class="note" id="nw-auth-note"></p><p class="note" id="nw-message" role="status" aria-live="polite"></p><p class="note" id="nw-mine"></p>
+    <div class="nw-standing"><p class="note" id="nw-state" role="status">Loading standings…</p><button class="btn sm sec" id="nw-refresh" type="button">Refresh</button></div>
+    <div class="nw-scroll"><table id="nw-table" hidden><caption class="nw-sr">Clock Out global net worth rankings</caption><thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col" class="num">Net worth</th><th scope="col" class="num">Gen.</th></tr></thead><tbody id="nw-rows"></tbody></table></div>
+    <p class="note">Latest posted scores, not lifetime peaks. A new generation can lower your score. Casual rankings from browser saves.</p>
+  </section>
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" aria-selected="true" data-tab="haggle" id="tab-haggle">Haggle</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="bidder" id="tab-bidder">Bidder</button>
@@ -163,5 +181,6 @@ select.ok{border-color:var(--good);background:var(--good-soft)}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <script src="app.js"></script>
+<script src="leaderboard.js"></script>
 </body>
 </html>
