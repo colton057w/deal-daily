@@ -145,6 +145,15 @@ ul.plain{margin:6px 0 0;padding-left:18px;font-size:12px;display:grid;gap:5px}.r
 @media(prefers-reduced-motion:reduce){.sprite,.sprite .prop{animation:none}}
 @media(max-width:900px){.week{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:650px){.week{grid-template-columns:repeat(2,minmax(0,1fr))}.interior-scene{height:200px}.int-pieces{gap:4px}.int-people{gap:12px}.life-group>small{min-width:0;width:100%}.profile-head{flex-direction:column}}
+
+/* The City Has Rules */
+.city-tabs{margin:12px 0}.district-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:8px 0 12px}.district-card{display:grid;gap:4px;text-align:left;padding:12px;border:1px solid var(--line);background:var(--panel);border-radius:4px;color:var(--ink);cursor:pointer}.district-card small{color:var(--muted);font-size:11px}.district-card span{font:10px var(--mono);letter-spacing:.5px;color:#cfd9e2}.district-card.home{border-color:var(--gold)}.district-card.picked{border-color:var(--mint);box-shadow:inset 0 0 0 1px var(--mint)}.district-card:hover{filter:brightness(1.1)}
+.district-detail{margin-bottom:14px}.district-detail .lhc-grid{margin-top:10px}
+.timeline{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}.timeline span{font:10px var(--mono);letter-spacing:.5px;padding:3px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}.timeline span.done{border-color:#4b5e4b;color:var(--mint)}.timeline span.now{border-color:var(--gold);color:var(--gold);background:#2a2620}
+.card.case.criminal{border-color:#7a3f3a}.card.case.regulatory{border-color:#7a6a3a}.card.case.civil{border-color:#3a5a7a}
+.card details{margin-top:8px}.card summary{cursor:pointer;font:10px var(--mono);letter-spacing:1px;color:var(--muted)}
+.person-card.contact{cursor:default}.person-card.contact .actions{margin-top:6px;gap:4px}.person-card.contact .actions .btn{min-height:26px;padding:3px 8px;font-size:10px;margin-top:0;flex:0 1 auto}
+@media(max-width:650px){.district-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
